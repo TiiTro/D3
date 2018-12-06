@@ -1,0 +1,132 @@
+<html>
+    <head>
+        <script src='https://d3js.org/d3.v5.min.js'></script>
+        <style>
+          svg {
+            width: 1000px;
+            height: 1000px;
+            border: 3px solid blue;
+            transform-origin: 0 0;
+          }
+        </style>
+    </head>
+    <body>
+        <script type='text/javascript'>
+        var values = [0, 2, 8, 1, 2];
+
+        var initialX = 15;
+        var deltaX = 25;
+
+        var initialY = 15;
+        var deltaY = 25;
+
+        var currentX = initialX;
+        var currentY = initialY;
+
+        var svg = d3.select('body')
+          .append('svg')
+          .attr('transform', 'scale(8)') // affects also the origin coordinates
+
+        var gCircles = svg.append('g');
+        gCircles.attr('class', 'circleGroup');
+
+        values.forEach(x => drawCircle(gCircles, x))
+
+        currentX = 15;
+        currentY += 20;
+
+        var gPropCircles = svg.append('g');
+        gPropCircles.attr('class', 'propCircleGroup');
+
+        values.forEach(x => drawProportionalCircle(gPropCircles, x))
+
+        currentX = 15;
+        currentY += 20;
+
+        var gRect = svg.append('g');
+        gRect.attr('class', 'rectangleGroup')
+
+        values.forEach(x => drawRectangle(gRect, x))
+
+        function drawRectangle(gRect, radius) {
+          gRect
+            .append('rect')
+            .attr('fill', 'red')
+            .attr('width', 5)
+            .attr('height', radius)
+            .attr('x', currentX)
+            .attr('y', currentY)
+          ;
+
+          gRect.append('text')
+          .text(radius)
+          .attr('fill', 'black')
+          .attr('font-size', '3pt')
+          .attr('x', currentX)
+          .attr('y', currentY)
+
+          currentX += 25;
+        }
+
+        function drawCircle(gCircles, radius) {
+          gCircles
+            .append('circle')
+            .attr('fill', 'red')
+            .attr('r', radius)
+            .attr('cx', currentX)
+            .attr('cy', currentY)
+          ;
+
+          gCircles.append('text')
+          .text(radius)
+          .attr('fill', 'black')
+          .attr('font-size', '3pt')
+          .attr('x', currentX)
+          .attr('y', currentY)
+
+          currentX += 25;
+        }
+
+        function drawProportionalCircle(gPropCircles, radius) {
+          gPropCircles
+            .append('circle')
+            .attr('fill', 'red')
+            .attr('r', Math.sqrt(radius))
+            .attr('cx', currentX)
+            .attr('cy', currentY)
+          ;
+
+          gPropCircles.append('text')
+          .text(radius)
+          .attr('fill', 'black')
+          .attr('font-size', '3pt')
+          .attr('x', currentX)
+          .attr('y', currentY)
+
+          currentX += 25;
+        }
+        
+        // svg
+        //   .append('circle')
+        //   .attr('fill', 'aqua')
+        //   .attr('r', 80)
+        //   .attr('cx', 200)
+        //   .attr('cy', 100)
+        //   ;
+        // svg
+        //   .append('circle')
+        //   .attr('fill', 'purple')
+        //   .attr('r', 10)
+        //   .attr('cx', 300)
+        //   .attr('cy', 100)
+        //   ;
+        // svg
+        //   .append('circle')
+        //   .attr('fill', 'lime')
+        //   .attr('r', 20)
+        //   .attr('cx', 400)
+        //   .attr('cy', 100)
+        //   ;
+        </script>
+    </body>
+</html>
