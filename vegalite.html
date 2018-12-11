@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vegalite test</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@4.3.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@3.0.0-rc10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@3.24.1"></script>
+</head>
+<body>
+    <div id='vis'></div>
+
+
+    <script type='text/javascript'>
+      var stackedBars = {
+        "$schema": "https://vega.github.io/schema/vega-lite/v2.0.json",
+        "description": "Testing vega lite",
+        "height": 400,
+        "padding": 5,
+        // "background": "red",
+        "data": {
+          "values": [
+            {"type": "name1", "value": "1000"},
+            {"type": "name1", "value": "800"},
+            {"type": "name1", "value": "200"},
+            {"type": "name2", "value": "1200"},
+            {"type": "name2", "value": "800"},
+            {"type": "name3", "value": "400"},
+            {"type": "name4", "value": "400"}
+          ]
+        },
+      "mark": "bar",
+      "encoding": {
+        "x": {"field": "type",
+              "type": "nominal",
+              "stack": "zero"},
+        "y": {"field": "value"
+              },
+        "color": {
+          "scale": {"range": ["#EA98D2", "#659CCA"]}
+        }
+      }
+    }
+    vegaEmbed("#vis", stackedBars);
+
+    
+
+
+    </script>
+    
+</body>
+</html>
