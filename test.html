@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <style>
+    body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
+		svg { height: 1000px; width: 1000px;}
+	</style>
+</head>
+
+<body> 
+	<script type='text/javascript'>
+		var data = [100, 250, 175, 200, 120, 60, 20];
+		var rectWidth = 50;
+		var height = 300;
+
+		console.log(data);
+		
+		var svg = d3.select('body')
+			.append('svg');
+
+		var chart = svg.selectAll('rect')
+			.data(data).enter().append("rect")
+			
+			.attr("x", (d, i) => i * rectWidth)
+			.attr("y", d => height - d)
+			.attr("width", rectWidth)
+			.attr("height", d => d)
+			.attr("fill", "blue")
+			.attr("stroke", "#fff");
+
+			console.log(height);
+			console.log(chart.nodes);
+
+			// SCALES:
+			// .extent automatically finds and returns the min and max values of the given array
+			var extent = d3.extent(data, d => d);
+			console.log(extent);
+
+			// Setting the input and output values for the scale
+			var yScale = d3.scaleLinear()
+				// domain means the input values
+				.domain(extent)
+				// range specifies the output values
+				.range([height, 0]);
+
+			// AXES:
+			var yAxis = d3.axisLeft()
+				// passing in a scale to use
+				.scale(yScale);
+
+			var axis = d3.select('svg')
+				// adding a svg group -element to bind together the svg-elements on the axis
+				.append('g')
+				.attr('transform', 'translate(40, 20)')
+				// calling/rendering the yAxis in the axis
+				.call(yAxis);
+				
+			// Modifying axis tick text colors if smaller or equal to 100
+			var text = axis.selectAll('text')
+				.attr('fill', function(d) {return d <= 100 ? 'red' : 'green'})
+			// console.logging axis text data	
+			console.log(text.data());
+
+			// Logging the axis contents
+			console.log(axis.node())
+	</script>
+</body>
