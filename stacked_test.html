@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <style>
+    body { 
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0; }
+	svg { 
+        height: 1000px; 
+        width: 1000px;}
+	</style>
+</head>
+
+<body> 
+	<script type='text/javascript'>
+		
+		var data = [{ type: "fruit", name: "bananas", value: 100 },
+          { type: "fruit", name: "apples", value: 50 },
+          { type: "fruit", name: "kiwis", value: 20 },
+          { type: "berries", name: "strawberries", value: 90 },
+          { type: "berries", name: "blueberries", value: 40 },
+          { type: "veggies", name: "carrots", value: 50 },
+          { type: "nuts", name: "macademias", value: 30 }];
+          
+        var rectWidth = 50;
+        var width = 800;
+        var height = 300;
+        var margin = { top: 20,left: 20, bottom: 20, right: 20 };
+
+        // console.log(data);
+        // console.log(height);
+        // console.log(rectWidth);
+		
+		var svg = d3.select('body')
+			.append('svg')
+			.attr("width", width + margin.left + margin.right)
+			.attr("height", height + margin.top + margin.bottom)
+			// .append("g")
+			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		
+		// Forming stacked datalayers
+		var stack = d3.stack()
+			.keys(["fruit", "berries", "veggies", "nuts"])
+			.order(d3.stackOrderNone) // stackOrderAscending
+			.offset(d3.stackOffsetNone);
+
+		var series = stack(data);
+		console.log(series);
+
+		// Constructing rectangles for displaying the stacks
+		// var chart = svg.selectAll("rect")
+		// 	.data
+	
+		// scales
+		var xExtent = d3.extent(data, d => d.type);
+		var xScale = d3.scaleOrdinal()
+			.domain(xExtent)
+			.range([margin.left, width - margin.right]);
+
+		var yExtent = d3.extent(data, d => d.value);
+		var yScale = d3.scaleLinear()
+			.domain(yExtent)
+			.range([height - margin.bottom, margin.top])
+		
+		// console.logging a value on the scale will print out the position of the value on the scale in px.
+		console.log(xScale("fruit"));
+		console.log(yScale(100));
+
+		// Drawing the y and x axis
+		var yAxis = d3.axisLeft()
+			.scale(yScale);
+		
+		var axis = d3.select("svg")
+			.append('g')
+			.attr('transform', 'translate(30, 20)')
+			.call(yAxis);
+
+		// x-axis
+		var xAxis = d3.axisBottom()
+			.scale(xScale);
+
+		var bottomAxis = d3.select('svg')
+			.append('g')
+			.attr('transform', 'translate(30, 20)')
+			.call(xAxis);
+
+
+	</script>
+</body>
